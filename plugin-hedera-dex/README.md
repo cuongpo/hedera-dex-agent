@@ -1,116 +1,170 @@
 # Hedera DEX Plugin
 
-A Hedera DEX plugin for SaucerSwap integration with ElizaOS. This plugin provides real-time access to SaucerSwap V2 liquidity pools and DEX data from the Hedera blockchain.
+A comprehensive Hedera DEX plugin for SaucerSwap integration with ElizaOS. This plugin provides real-time access to SaucerSwap V2 liquidity pools, token swapping capabilities, and complete DEX data from the Hedera blockchain.
 
-## Overview
+## 🚀 Features
 
 This plugin provides:
 
-- **List Pools Action**: Fetches all liquidity pools from SaucerSwap V2
-- **Real-time Data**: Connects to Hedera Mirror Node for live blockchain data
-- **Multi-network Support**: Works with both Hedera mainnet and testnet
-- **Provider Integration**: Supplies contextual information about DEX capabilities
-- **Onchain Data**: No mocking - fetches real pool data from contract events
+- **📊 Pool Management**: Fetches all liquidity pools from SaucerSwap V2
+- **💱 Token Swapping**: Execute real token swaps on SaucerSwap DEX
+- **🔍 Pool Information**: Get detailed information about specific trading pairs
+- **⚡ Real-time Data**: Connects to Hedera Mirror Node for live blockchain data
+- **🌐 Multi-network Support**: Works with both Hedera mainnet and testnet
+- **🔗 Provider Integration**: Supplies contextual information about DEX capabilities
+- **📈 Onchain Data**: No mocking - fetches real pool data from contract events
+- **🏥 Health Monitoring**: Built-in health check and status endpoints
 
-## Structure
+## 📁 Structure
 
 ```
 plugin-hedera-dex/
 ├── src/
-│   ├── __tests__/          # Unit tests
+│   ├── __tests__/              # Unit tests
 │   │   ├── plugin.test.ts
 │   │   └── test-utils.ts
-│   ├── plugin.ts           # Main plugin implementation
-│   ├── tests.ts            # Plugin test suite
-│   └── index.ts            # Plugin export
+│   ├── plugin.ts               # Main plugin implementation
+│   ├── saucerswap-abi.ts      # SaucerSwap contract ABIs
+│   ├── manual-test.ts         # Manual testing utilities
+│   └── index.ts               # Plugin export
 ├── scripts/
-│   └── install-test-deps.js # Test dependency installer
-├── tsup.config.ts          # Build configuration
-├── tsconfig.json           # TypeScript config
-├── package.json            # Minimal dependencies
-└── README.md               # This file
+│   └── install-test-deps.js   # Test dependency installer
+├── dist/                      # Compiled output
+│   ├── index.js
+│   └── index.d.ts
+├── tsup.config.ts            # Build configuration
+├── tsconfig.json             # TypeScript config
+├── package.json              # Dependencies and scripts
+└── README.md                 # This file
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
-1. **Create your plugin:**
+### **Prerequisites**
+- Node.js 18+ or Bun
+- ElizaOS framework
+- Hedera testnet/mainnet account (for real swaps)
+- OpenAI or Anthropic API key
 
+### **Installation**
+
+1. **Clone or install the plugin:**
    ```bash
-   elizaos create my-plugin
-   # Select: Plugin
-   # Select: Quick Plugin (Backend Only)
+   # If part of the main project
+   cd plugin-hedera-dex
+   npm install
    ```
 
-2. **Navigate to your plugin:**
-
+2. **Build the plugin:**
    ```bash
-   cd my-plugin
+   npm run build
    ```
 
-3. **Install dependencies:**
-
+3. **Configure environment variables:**
    ```bash
-   bun install
+   # In your main project .env file
+   HEDERA_NETWORK=testnet
+   HEDERA_MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com
+
+   # Optional: For real swaps
+   HEDERA_PRIVATE_KEY=your_private_key
+   HEDERA_ACCOUNT_ID=0.0.your_account_id
    ```
 
-4. **Start development:**
-   ```bash
-   bun run dev
-   ```
+## 💬 Usage
 
-## Usage
+### **Available Actions**
 
-### List Pools Action
+#### 1. **List Pools** (`LIST_POOLS`)
+Fetches all liquidity pools from SaucerSwap V2.
 
-The `LIST_POOLS` action fetches all liquidity pools from SaucerSwap V2. You can trigger it with various phrases:
-
+**Trigger phrases:**
 - "Show me all the liquidity pools on SaucerSwap"
 - "What pools are available for trading?"
-- "List pools"
-- "Get pools"
-- "Show pools"
-- "Fetch pools"
+- "List pools" / "Get pools" / "Show pools"
 - "SaucerSwap pools"
 
-The action will:
-1. Connect to the Hedera Mirror Node
-2. Query the SaucerSwap V2 Factory contract for pool creation events
-3. Parse pool data including token pairs, fees, and liquidity information
-4. Return formatted pool information with contract IDs and token details
+**What it does:**
+1. Connects to the Hedera Mirror Node
+2. Queries the SaucerSwap V2 Factory contract for pool creation events
+3. Parses pool data including token pairs, fees, and liquidity information
+4. Returns formatted pool information with contract IDs and token details
 
-### Configuration
+#### 2. **Get Pool Info** (`GET_POOL_INFO`)
+Get detailed information about a specific trading pair.
+
+**Trigger phrases:**
+- "Show WHBAR/USDC pool details"
+- "Get pool info for SAUCE and XSAUCE"
+- "What are the details of the HBAR/USDT pool?"
+
+#### 3. **Swap Tokens** (`SWAP_TOKENS`)
+Execute token swaps on SaucerSwap DEX.
+
+**Trigger phrases:**
+- "Swap 10 HBAR for USDT"
+- "Trade 100 USDC for SAUCE"
+- "Exchange 5.5 WHBAR to BONZO"
+
+**Features:**
+- Real swap execution on testnet/mainnet
+- Automatic token association if needed
+- Slippage protection
+- Transaction confirmation
+
+### **API Endpoints**
+
+The plugin provides REST API endpoints:
+
+- **`GET /`** - Health check endpoint
+- **`GET /api/status`** - Plugin status information
+
+### **Configuration**
 
 Set environment variables in your `.env` file:
 
 ```env
-HEDERA_NETWORK=mainnet  # or testnet
-HEDERA_MIRROR_NODE_URL=https://mainnet-public.mirrornode.hedera.com  # optional, defaults based on network
+# Network Configuration
+HEDERA_NETWORK=testnet  # or mainnet
+HEDERA_MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com
+
+# Wallet Configuration (for real swaps)
+HEDERA_PRIVATE_KEY=your_private_key_here
+HEDERA_ACCOUNT_ID=0.0.your_account_id
+
+# Optional: Demo mode (uses mock data)
+DEMO_MODE=false
 ```
 
 **Supported Networks:**
 - **Mainnet**: Factory contract `0.0.3946833`
 - **Testnet**: Factory contract `0.0.1197038`
 
-## Key Features
+## ✨ Key Features
 
-### Minimal Dependencies
+### **🔗 Blockchain Integration**
+- Direct integration with Hedera Hashgraph network
+- Real-time data from Hedera Mirror Node API
+- Support for both mainnet and testnet environments
+- Actual on-chain transaction execution
 
-- Only essential packages (`@elizaos/core`, `zod`)
-- No frontend frameworks or build tools
-- Fast installation and builds
+### **💱 DEX Functionality**
+- Complete SaucerSwap V2 integration
+- Pool discovery and liquidity information
+- Token swapping with slippage protection
+- Automatic token association handling
 
-### Simple Testing
+### **🏗️ Architecture**
+- Minimal dependencies for fast deployment
+- TypeScript with full type safety
+- Modular plugin architecture
+- RESTful API endpoints
 
-- Unit tests only with Bun test runner
-- No E2E or component testing overhead
-- Quick test execution
-
-### Backend Focus
-
-- API routes for server-side functionality
-- Services for state management
-- Actions for agent capabilities
-- Providers for contextual data
+### **🧪 Testing & Development**
+- Comprehensive unit test suite
+- Manual testing utilities
+- Mock data support for development
+- Built-in health monitoring
 
 ## Plugin Components
 
@@ -186,23 +240,43 @@ routes: [
 ];
 ```
 
-## Development Commands
+## 🛠️ Development Commands
 
 ```bash
-# Start in development mode with hot reload
-bun run dev
-
-# Start in production mode
-bun run start
+# Install dependencies
+npm install
 
 # Build the plugin
-bun run build
+npm run build
 
 # Run tests
-bun test
+npm test
 
 # Format code
-bun run format
+npm run format
+
+# Manual testing
+npm run manual-test
+```
+
+## 🚀 Deployment
+
+### **Local Development**
+```bash
+# In your main project
+npm run dev
+```
+
+### **Production Deployment**
+The plugin is ready for deployment on platforms like Render, Vercel, or any Node.js hosting service.
+
+**Environment Variables for Production:**
+```env
+NODE_ENV=production
+HEDERA_NETWORK=mainnet
+HEDERA_MIRROR_NODE_URL=https://mainnet-public.mirrornode.hedera.com
+HEDERA_PRIVATE_KEY=your_production_private_key
+HEDERA_ACCOUNT_ID=0.0.your_production_account
 ```
 
 ## Testing
@@ -225,23 +299,43 @@ describe('My Plugin', () => {
 2. Build your plugin: `bun run build`
 3. Publish: `elizaos publish`
 
-## When to Use Quick Starter
+## 🔧 Technical Details
 
-Use this template when you need:
+### **Dependencies**
+- `@elizaos/core` - ElizaOS framework integration
+- `@hashgraph/sdk` - Hedera SDK for blockchain operations
+- `ethers` - Ethereum-compatible utilities for contract interaction
+- `axios` - HTTP client for API requests
+- `zod` - Runtime type validation
 
-- ✅ Backend-only functionality
-- ✅ Simple API integrations
-- ✅ Lightweight plugins
-- ✅ Fast development cycles
-- ✅ Minimal dependencies
+### **Supported Token Standards**
+- **HBAR** - Native Hedera cryptocurrency
+- **HTS Tokens** - Hedera Token Service fungible tokens
+- **Wrapped HBAR (WHBAR)** - ERC-20 compatible HBAR
 
-Consider the full plugin-hedera-dex if you need:
+### **SaucerSwap Integration**
+- **V2 Factory Contract**: Pool discovery and creation events
+- **Router Contract**: Token swapping and liquidity operations
+- **Pool Contracts**: Individual liquidity pool interactions
 
-- ❌ React frontend components
-- ❌ Complex UI interactions
-- ❌ E2E testing with Cypress
-- ❌ Frontend build pipeline
+## 🤝 Contributing
 
-## License
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Submit a pull request
 
-This template is part of the ElizaOS project.
+## 📄 License
+
+This plugin is part of the ElizaOS ecosystem and follows the same licensing terms.
+
+## 🆘 Support
+
+- **Documentation**: [ElizaOS Docs](https://elizaos.ai)
+- **Issues**: Report bugs and feature requests via GitHub Issues
+- **Community**: Join the ElizaOS Discord community
+
+---
+
+**Built with ❤️ for the Hedera and ElizaOS communities**
