@@ -1286,13 +1286,27 @@ export const hederaDexPlugin: Plugin = {
   },
   routes: [
     {
+      name: 'health-check',
+      path: '/',
+      type: 'GET',
+      handler: async (_req: any, res: any) => {
+        res.json({
+          status: 'ok',
+          service: 'Hedera DEX Agent',
+          version: '1.0.0',
+          timestamp: new Date().toISOString(),
+          message: 'Hedera DEX Agent is running successfully! 🚀'
+        });
+      },
+    },
+    {
       name: 'api-status',
       path: '/api/status',
       type: 'GET',
       handler: async (_req: any, res: any) => {
         res.json({
           status: 'ok',
-          plugin: 'quick-starter',
+          plugin: 'hedera-dex-plugin',
           timestamp: new Date().toISOString(),
         });
       },
