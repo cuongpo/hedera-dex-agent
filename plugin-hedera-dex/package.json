@@ -43,6 +43,7 @@
     "@elizaos/core": "latest",
     "@hashgraph/sdk": "^2.70.0",
     "axios": "^1.11.0",
+    "ethers": "^6.15.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {

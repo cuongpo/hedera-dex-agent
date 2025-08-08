@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: hedera-dex-agent
+    env: node
+    plan: starter
+    buildCommand: npm install && cd plugin-hedera-dex && npm install && npm run build && cd .. && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: HEDERA_NETWORK
+        value: testnet
+      - key: HEDERA_MIRROR_NODE_URL
+        value: https://testnet.mirrornode.hedera.com
+      # Add your API keys as environment variables in Render dashboard
+      # - key: OPENAI_API_KEY
+      #   sync: false
+      # - key: ANTHROPIC_API_KEY
+      #   sync: false
+      # - key: TELEGRAM_BOT_TOKEN
+      #   sync: false
+      # - key: HEDERA_PRIVATE_KEY
+      #   sync: false
+      # - key: HEDERA_ACCOUNT_ID
+      #   sync: false

@@ -55,8 +55,9 @@
     "vite": "^6.0.1"
   },
   "scripts": {
-    "start": "elizaos start",
+    "start": "elizaos start --character=hedera-agent.json",
     "dev": "elizaos dev",
+    "prebuild": "cd plugin-hedera-dex && npm install && npm run build && cd ..",
     "build": "tsc --noEmit && vite build && tsup",
     "lint": "prettier --write ./src",
     "type-check": "tsc --noEmit",
