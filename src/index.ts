@@ -1,7 +1,7 @@
 import { logger, type IAgentRuntime, type Project, type ProjectAgent } from '@elizaos/core';
-import starterPlugin from './plugin.ts';
+import starterPlugin from './plugin.js';
 import hederaDexPlugin from '../plugin-hedera-dex/dist/index.js';
-import { character } from './character.ts';
+import { character } from './character.js';
 
 const initCharacter = ({ runtime }: { runtime: IAgentRuntime }) => {
   logger.info('Initializing character');
@@ -19,6 +19,6 @@ const project: Project = {
 
 // Export test suites for the test runner
 export { testSuites } from './__tests__/e2e';
-export { character } from './character.ts';
+export { character } from './character.js';
 
 export default project;

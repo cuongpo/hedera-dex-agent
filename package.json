@@ -58,7 +58,7 @@
     "start": "elizaos start --character=hedera-agent.json",
     "dev": "elizaos dev",
     "prebuild": "cd plugin-hedera-dex && npm install && npm run build && cd ..",
-    "build": "tsc --noEmit && vite build && tsup",
+    "build": "tsc",
     "lint": "prettier --write ./src",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
