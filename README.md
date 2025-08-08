@@ -1,4 +1,6 @@
-# Hedera DEX Agent 🌊
+# Hedera DEX Agent
+
+🚀 **Now deployable on Render!** 🌊
 
 A specialized AI agent for interacting with Hedera Hashgraph and SaucerSwap DEX operations. Execute real token swaps, analyze pools, and manage DeFi operations through natural language commands.
 
