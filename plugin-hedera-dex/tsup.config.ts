@@ -8,6 +8,7 @@ export default defineConfig({
   clean: false,
   format: ['esm'], // Ensure you're targeting CommonJS
   dts: true, // require DTS so we get d.ts in the dist folder on npm
+  bundle: false, // Disable bundling to avoid Rollup issues
   external: [
     'dotenv', // Externalize dotenv to prevent bundling
     'fs', // Externalize fs to use Node.js built-in module
@@ -16,5 +17,8 @@ export default defineConfig({
     'http',
     '@elizaos/core',
     'zod',
+    'ethers',
+    '@hashgraph/sdk',
+    'axios',
   ],
 });

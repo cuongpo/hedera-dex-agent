@@ -3,7 +3,7 @@ services:
     name: hedera-dex-agent
     env: node
     plan: starter
-    buildCommand: npm install && cd plugin-hedera-dex && npm install && npm run build && cd .. && npm run build
+    buildCommand: cd plugin-hedera-dex && rm -rf node_modules package-lock.json && npm install && npm run build && cd .. && npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
